@@ -1,0 +1,10 @@
+/target
+
+# ignore local config file
+config.toml
+
+# ignore local vfs archive
+vfs.zip
+
+# ignore local logs
+*.json
