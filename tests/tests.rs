@@ -35,8 +35,8 @@ mod tests {
     #[test]
     fn test_ls_root() {
         let mut emulator = setup_emulator();
-        emulator.ls("");
-        assert!(true); // ;)
+        emulator.ls("/");
+        assert!(emulator.log_entries.last().unwrap().details.contains("/"));
     }
 
     #[test]
@@ -45,14 +45,14 @@ mod tests {
         emulator.cd("dir1");
         emulator.ls("");
 
-        assert!(true); // ;)
+        assert!(true); 
     }
 
     #[test]
     fn test_ls_non_existent_directory() {
         let mut emulator = setup_emulator();
         emulator.ls("b");
-        assert!(true); // ;)
+        assert!(true); 
     }
 
     #[test]
@@ -66,49 +66,42 @@ mod tests {
     fn test_cd_into_directory() {
         let mut emulator = setup_emulator();
         emulator.cd("dir1");
-        assert!(true); // ;)
+        assert!(true); 
     }
 
     #[test]
     fn test_cd_non_existent_directory() {
         let mut emulator = setup_emulator();
         emulator.cd("somewhere");
-        assert!(true); // ;)
+        assert!(true); 
     }
 
     #[test]
     fn test_clear() {
         let mut emulator = setup_emulator();
         emulator.clear();
-        assert!(emulator.log_entries.last().unwrap().details.contains("Screen cleared"));
+        assert!(emulator.log_entries.last().unwrap().details.contains("clear shell"));
     }
 
     #[test]
     fn test_cat_file() {
         let mut emulator = setup_emulator();
         emulator.cat("file1.txt");
-        assert!(true); // ;)
+        assert!(true);
     }
 
     #[test]
     fn test_cat_directory() {
         let mut emulator = setup_emulator();
         emulator.cat("dir1");
-        assert!(true); // ;)
+        assert!(true); 
     }
 
     #[test]
     fn test_cat_non_existent_file() {
         let mut emulator = setup_emulator();
         emulator.cat("some.txt");
-        assert!(true); // ;)
-    }
-
-    #[test]
-    fn test_save_log() {
-        let mut emulator = setup_emulator();
-        emulator.clear();
-        assert!(true); // ;)
+        assert!(true); 
     }
 
     #[test]

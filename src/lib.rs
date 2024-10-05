@@ -188,7 +188,6 @@ impl ShellEmulator {
             "." => self.ls(self.current_dir.clone().as_str()),
             ".." => {
                 if self.current_dir != "" {
-                    // :)
                 } else {
                     self.ls("");
                 }
@@ -209,9 +208,19 @@ impl ShellEmulator {
 
                 let count = names.len();
 
+                let mut found: HashSet<&str> = HashSet::new();
                 if count != 0 {
                     for name in names {
-                        print!("{name} ");
+                        let i = name.find("/");
+                        let filename = match i {
+                            Some(index) => &name[..index],
+                            None => name
+                        };
+
+                        if !found.contains(filename) {
+                            print!("{filename} ");
+                            found.insert(filename);
+                        }
                     }
                     print!("\n");
                 }
@@ -219,7 +228,7 @@ impl ShellEmulator {
                 self.log(LS, format!("ls of /{fullpath}"));
             }
         }
-    
+
         self.log("ls", format!("ls of /{}", dir));
     }
 
@@ -279,7 +288,7 @@ impl ShellEmulator {
 
     pub fn clear(&mut self) {
         print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-        self.log("clear", "Screen cleared".to_string());
+        self.log(CLEAR, "clear shell".to_string());
     }
 
     pub fn cat(&mut self, dir: &str) {
@@ -309,7 +318,8 @@ impl ShellEmulator {
             match file.read_to_string(&mut body) {
                 Ok(_) => {}
                 Err(e) => {
-                    println!("mysh: cat: {e}")
+                    let msg = format!("mysh: cat: {e}");
+                    println!("{msg}");
                 }
             };
 
